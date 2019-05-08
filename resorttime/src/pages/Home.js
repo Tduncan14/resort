@@ -3,6 +3,7 @@ import Hero from '../components/Hero';
 import Banner from '../components/Banner';
 import {Link} from 'react-router-dom';
 import Services from '../components/Services';
+import FeatureRooms from '../components/FeatureRooms';
 
 
 function Home () {
@@ -17,6 +18,7 @@ function Home () {
         </Banner>
     </Hero>
     <Services />
+    <FeatureRooms/>
     </>
     );
 }
