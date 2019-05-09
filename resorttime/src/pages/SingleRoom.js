@@ -1,22 +1,33 @@
-import React,{Component} from 'react';
+import React, { Component } from "react";
+import defaultBcg from "../images/room-1.jpeg";
+import { Link } from "react-router-dom";
+import { RoomContext } from "../context";
+import Banner from '../components/Banner';
 
 
+export default class SingleRoom extends Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props);
+    this.state = {
+      slug: this.props.match.params.slug,
+      defaultBcg: defaultBcg
+    };
+  }
+  
+  // componentDidMount() {
+  //   console.log(this.props);
+  // }
+  render() {
+    const {getRoom} = this.context;
+    const room = getRoom(this.state.slug);
+    console.log(room)
 
-class  SingleRoom extends Component {
-
-
-
-    render(){
-
-
-        return(
-            <div>
-                Hello from Single Room page
-            </div>
-        )
-    }
+    return(
+ <div> This the number of </div>
+    )
+    
+  }
 }
 
-
-
-export default SingleRoom
+SingleRoom.contextType = RoomContext;
