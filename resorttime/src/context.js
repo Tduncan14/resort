@@ -11,7 +11,16 @@ const RoomContext = React.createContext();
         rooms:[],
         sortedRooms:[],
         featureRooms:[],
-        loading:true
+        loading:true,
+        type:'all',
+        capacity:1,
+        price:0,
+        minPrice:0,
+        maxPrice:0,
+        minSize:0,
+        maxSize:0,
+        breakfast:false,
+        pets:false
      
     }
 
@@ -22,11 +31,20 @@ const RoomContext = React.createContext();
         console.log(rooms);
         let featureRooms = rooms.filter(room => room.featured === true);
 
+        let maxPrice = Math.max(...rooms.map(item =>item.price));
+        
+        let maxSize = Math.max(item => item.size);
+
+
         this.setState({
             rooms,
             featureRooms,
             sortedRooms:rooms,
-            loading:false
+            loading:false,
+            price:maxPrice,
+            maxPrice,
+            maxSize
+
 
         })
     }
@@ -52,9 +70,26 @@ const RoomContext = React.createContext();
         const room = tempRooms.find(room => room.slug === slug);
         return room;}
 
+    
+    handleChange = event =>{
+        const type = event.target.type;
+        const name = event.target.name;
+        const value = event.target.value;
+
+
+        console.log(type,name,value);
+
+    }
+
+
+    filterRooms = () =>{
+
+        console.log('hello');
+    }
+
     render () {
     return(
-        <RoomContext.Provider value={{...this.state , getRoom:this.getRoom}}>
+        <RoomContext.Provider value={{...this.state , getRoom:this.getRoom ,handleChange:this.handleChange}}>
        {this.props.children}
         </RoomContext.Provider>
     )
@@ -62,5 +97,16 @@ const RoomContext = React.createContext();
  }
 
  const RoomConsumer = RoomContext.Consumer;
+
+ export function withRoomConsumer(Component){
+     return function ConsumerWrapper(props){
+     return <RoomConsumer>
+         {
+             value => <Component {...props} context={value} />
+         }
+     </RoomConsumer>
+     }
+ }
+
 
  export{RoomProvider,RoomConsumer,RoomContext};

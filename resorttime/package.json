@@ -7,7 +7,8 @@
     "react-dom": "*",
     "react-icons": "*",
     "react-router-dom": "*",
-    "react-scripts": "*"
+    "react-scripts": "*",
+    "styled-components": "^4.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
