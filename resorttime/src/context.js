@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
 import items from './data';
+import Client from './Contentful';
+
+
+
 
 const RoomContext = React.createContext();
 
@@ -24,29 +28,43 @@ const RoomContext = React.createContext();
      
     }
 
+    getData = async () =>{
+      
+    try{
+     let response = await Client.getEntries({
+        content_type:'beachresort'
+     });
+     let rooms = this.formatData(response.items)
+     console.log(rooms);
+     let featureRooms = rooms.filter(room => room.featured === true);
+
+     let maxPrice = Math.max(...rooms.map(item =>item.price));
+     
+     let maxSize = Math.max(...rooms.map(item => item.size));
+
+
+     this.setState({
+         rooms,
+         featureRooms,
+         sortedRooms:rooms,
+         loading:false,
+         price:maxPrice,
+         maxPrice,
+         maxSize
+
+
+     })
+    }
+
+    catch(error){
+          console.log(error);
+    }
+    }
+
     // get data
     componentDidMount (){
-        // this.getData
-        let rooms = this.formatData(items)
-        console.log(rooms);
-        let featureRooms = rooms.filter(room => room.featured === true);
-
-        let maxPrice = Math.max(...rooms.map(item =>item.price));
-        
-        let maxSize = Math.max(...rooms.map(item => item.size));
-
-
-        this.setState({
-            rooms,
-            featureRooms,
-            sortedRooms:rooms,
-            loading:false,
-            price:maxPrice,
-            maxPrice,
-            maxSize
-
-
-        })
+     this.getData()
+      
     }
 
     formatData(items){
@@ -73,7 +91,7 @@ const RoomContext = React.createContext();
     
     handleChange = event =>{
         const target = event.target;
-        const value = event.type === 'checkbox' ? target.checked : target.value;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = event.target.name;
 
 
@@ -107,6 +125,17 @@ const RoomContext = React.createContext();
      tempRooms = tempRooms.filter(room => room.price <= price);
 
 
+    //filter by size
+     tempRooms = tempRooms.filter(room => room.size > minSize && room.size <= maxSize)
+
+     // filter by breakfast
+       if(breakfast){
+           tempRooms = tempRooms.filter(room => room.breakfast === true);
+       }
+       // if pets are allowed is true
+       if(pets){
+           tempRooms = tempRooms.filter(room => room.pets  === true)
+       }
      // changed the state
          this.setState({
              sortedRooms:tempRooms

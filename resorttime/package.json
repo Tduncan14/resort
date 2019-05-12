@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "contentful": "^7.5.1",
     "react": "*",
     "react-dom": "*",
     "react-icons": "*",
