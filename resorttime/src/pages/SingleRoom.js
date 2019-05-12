@@ -5,7 +5,7 @@ import { RoomContext } from "../context";
 import Banner from '../components/Banner';
 import Hero from '../components/Hero';
 import StyledHero from '../components/Stylehero'
-import { FaRegImages } from "react-icons/fa";
+
 export default class SingleRoom extends Component {
   constructor(props) {
     super(props);

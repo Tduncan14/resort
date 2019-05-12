@@ -22,7 +22,7 @@ function RoomFilter ({rooms}) {
         handleChange,type, capacity, price,minPrice,maxPrice,minSize,maxSize, breakfast,pets
     } = context;
     // get unique types
-
+  
      let types = getUnique(rooms,'type');
    // add all
 
@@ -32,6 +32,11 @@ function RoomFilter ({rooms}) {
 
    types = types.map((item,index) =>{
        return <option value={item} key={index}>{item}</option>
+   })
+
+   let people = getUnique(rooms,'capacity');
+   people = people.map((item,index)=>{
+       return <option key={index} value={item}>{item}</option>
    })
 
     return(
@@ -47,6 +52,49 @@ function RoomFilter ({rooms}) {
        </select>
        </div>
       {/*end of select type */}
+      {/* guest type */}
+      <div className="form-group">
+       <label htmlFor ='capacity'>Number of Guest</label>
+       <select name="capacity"
+        id="type" value={capacity}
+         className="form-control" 
+         onChange={handleChange}>
+       {people}
+       </select>
+       </div>
+       {/*end of guest type */}
+    {/*room */}
+    <div className="form-group">
+    <label htmlFor="price">
+     room price ${price}
+    </label>
+    <input type="range" name="price" min={minPrice} max={maxPrice} id="price" value={price}
+     onChange={handleChange} className="form-control" />
+    </div>
+    {/* end of room price */}
+
+
+      {/*size */}
+      <div className="form-group">
+          <label htmlFor="price">room size </label>
+          <div className="size-inputs">
+            <input
+              type="number"
+              name="minSize"
+              value={minSize}
+              onChange={handleChange}
+              className="size-input"
+            />
+            <input
+              type="number"
+              name="maxSize"
+              value={maxSize}
+              onChange={handleChange}
+              className="size-input"
+            />
+          </div>
+        </div>
+    {/*end of size */}
      </form>
      </section>
     )
